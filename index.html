@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My GitHub Pages Site</title>
+</head>
+<body>
+    <h1>Welcome to My GitHub Pages Site</h1>
+    <p>Here you can add links to YouTube or any other website.</p>
+
+    <form id="linkForm">
+        <label for="linkInput">Enter a URL:</label>
+        <input type="url" id="linkInput" required>
+        <button type="submit">Add Link</button>
+    </form>
+
+    <ul id="linkList"></ul>
+
+    <button id="downloadButton">Download HTML</button>
+
+    <script>
+        document.getElementById('linkForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const url = document.getElementById('linkInput').value;
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = url;
+            link.textContent = url;
+            listItem.appendChild(link);
+            document.getElementById('linkList').appendChild(listItem);
+            document.getElementById('linkInput').value = '';
+        });
+
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>
